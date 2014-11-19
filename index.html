@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="SolidSoils4Arduino : C# .NET - Arduino library supporting simultaneous serial ASCII, Firmata and I2C communication">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>SolidSoils4Arduino</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/SolidSoils/Arduino">View on GitHub</a>
+
+          <h1 id="project_title">SolidSoils4Arduino</h1>
+          <h2 id="project_tagline">C# .NET - Arduino library supporting simultaneous serial ASCII, Firmata and I2C communication</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/SolidSoils/Arduino/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/SolidSoils/Arduino/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="solidsoils4arduino" class="anchor" href="#solidsoils4arduino" aria-hidden="true"><span class="octicon octicon-link"></span></a>SolidSoils4Arduino</h1>
+
+<p>SolidSoils4Arduino is a client library built on the .NET Framework 4.5 and providing an easy way to interact with Arduino boards.
+The library implements the main communication protocols, the first of which is the Firmata protocol.
+It aims to make communication with Arduino boards in MS .NET projects easier
+through a comprehensive and consistent set of methods and events.</p>
+
+<p>The library supports the following protocols:</p>
+
+<ol>
+<li>Serial (ASCII) messaging</li>
+<li>Firmata</li>
+<li>I2C (as it has become part of Firmata)</li>
+</ol>
+
+<p>The protocols mentioned can be used simultaneously. The library brokers all incoming message types
+and directs them to the appropriate requestors (synchronous as well as asynchronous) and events.</p>
+
+<p>Technology used: Microsoft .NET/C# v4.5</p>
+
+<h3>
+<a id="a-basic-code-example" class="anchor" href="#a-basic-code-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>A basic code example</h3>
+
+<pre><code>using Solid.Arduino.Firmata;
+
+(...)
+
+var connection = new SerialConnection("COM3", SerialBaudRate.Bps_57600);
+var session = new ArduinoSession(connection, timeOut: 250);
+// Cast to interface done, just for the sake of this demo.
+IFirmataProtocol firmata = (IFirmataProtocol)session;
+
+Firmware firm = firmata.GetFirmware();
+Console.WriteLine("Firmware: {0} {1}.{2}", firm.Name, firm.MajorVersion, firm.MinorVersion);
+
+ProtocolVersion version = firmata.GetProtocolVersion();
+Console.WriteLine("Protocol version: {0}.{1}", version.Major, version.Minor);
+
+BoardCapability caps = firmata.GetBoardCapability();
+Console.WriteLine("Board Capabilities:");
+
+foreach (var pincap in caps.PinCapabilities)
+{
+    Console.WriteLine("Pin {0}: Input: {1}, Output: {2}, Analog: {3}, Analog-Res: {4}, PWM: {5}, PWM-Res: {6}, Servo: {7}, Servo-Res: {8}",
+        pincap.PinNumber,
+        pincap.DigitalInput,
+        pincap.DigitalOutput,
+        pincap.Analog,
+        pincap.AnalogResolution,
+        pincap.Pwm,
+        pincap.PwmResolution,
+        pincap.Servo,
+        pincap.ServoResolution);
+}
+Console.WriteLine();
+Console.ReadLine();
+</code></pre>
+
+<h2>
+<a id="current-status" class="anchor" href="#current-status" aria-hidden="true"><span class="octicon octicon-link"></span></a>Current status</h2>
+
+<p><strong>v0.2</strong></p>
+
+<p>Code complete for the library core. (Beta)</p>
+
+<h2>
+<a id="milestones" class="anchor" href="#milestones" aria-hidden="true"><span class="octicon octicon-link"></span></a>Milestones</h2>
+
+<ol>
+<li>Firmata protocol implemented, unit- and integration-tested.</li>
+<li>I2C protocol implemented and unit-tested.</li>
+<li>Serial ASCII protocol implemented and unit-tested.</li>
+<li>API fully documented.</li>
+<li>IObservable methods implemented (to be unittested).</li>
+<li>Mono support added.</li>
+</ol>
+
+<h2>
+<a id="upcoming" class="anchor" href="#upcoming" aria-hidden="true"><span class="octicon octicon-link"></span></a>Upcoming</h2>
+
+<ol>
+<li>Finish unit tests for latest additions.</li>
+<li>Develop a WPF application demonstrating the library (project Solid.Arduino.Monitor).</li>
+<li>Release the first version.</li>
+</ol>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>If you discover a bug or would like to propose a new feature,
+please open a new <a href="https://github.com/solidsoils/arduino/issues?sort=created&amp;state=open">issue</a>.</p>
+
+<p>To contribute, fork this respository and create a new topic branch for the bug,
+feature or other existing issue you are addressing. Submit the pull request against the <em>master</em> branch.</p>
+
+<p>If you would like to contribute but don't have a specific bugfix or new feature to contribute,
+you can take on an existing issue. Add a comment to
+the issue to express your intent to begin work and/or to get any additional information about the issue.</p>
+
+<p>Please, test your contributed code thoroughly. In your pull request, describe tests performed to ensure 
+that no existing code is broken and that any changes maintain backwards compatibility with the existing API.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">SolidSoils4Arduino maintained by <a href="https://github.com/SolidSoils">SolidSoils</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("S24A-141117-01");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
