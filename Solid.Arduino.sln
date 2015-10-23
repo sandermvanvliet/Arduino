@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solid.Arduino", "Solid.Arduino\Solid.Arduino.csproj", "{FDF9E431-2390-4C7B-AE60-10183439A683}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solid.Arduino.Test", "Solid.Arduino.Test\Solid.Arduino.Test.csproj", "{74525FE1-E248-449B-B499-F3FB205054F8}"
@@ -15,6 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solid.Arduino.IntegrationTe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74531E41-B867-4266-890C-0B32CBE7EE99}"
 	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
 		LICENSE.md = LICENSE.md
 		README.md = README.md
 	EndProjectSection
