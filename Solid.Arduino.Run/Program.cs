@@ -16,7 +16,7 @@ namespace Solid.Arduino.Run
         {
             Console.WriteLine("Started.");
             var p = new Program();
-            AutoOpenTest();
+            SimpelTest();
 
             Console.ReadLine();
             Console.WriteLine("Ready.");
@@ -71,7 +71,7 @@ namespace Solid.Arduino.Run
 
         static void SimpelTest()
         {
-            var connection = new EnhancedSerialConnection("COM6", SerialBaudRate.Bps_57600);
+            var connection = new EnhancedSerialConnection("COM5", SerialBaudRate.Bps_57600);
             var session = new ArduinoSession(connection, timeOut: 250);
             IFirmataProtocol firmata = session;
 
@@ -94,9 +94,9 @@ namespace Solid.Arduino.Run
 
             foreach (var pincap in caps.PinCapabilities)
             {
-                Console.WriteLine("Pin {0}: Input: {1}, Output: {2}, Analog: {3}, Analog-Res: {4}, PWM: {5}, PWM-Res: {6}, Servo: {7}, Servo-Res: {8}",
+                Console.WriteLine("Pin {0}: Input: {1}, Output: {2}, Analog: {3}, Analog-Res: {4}, PWM: {5}, PWM-Res: {6}, Servo: {7}, Servo-Res: {8}, OneWire: {9}",
                     pincap.PinNumber, pincap.DigitalInput, pincap.DigitalOutput, pincap.Analog, pincap.AnalogResolution, pincap.Pwm, pincap.PwmResolution,
-                    pincap.Servo, pincap.ServoResolution);
+                    pincap.Servo, pincap.ServoResolution, pincap.OneWire);
             }
             Console.WriteLine();
 

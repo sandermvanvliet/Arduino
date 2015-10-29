@@ -70,7 +70,8 @@ namespace Solid.Arduino
             ProtocolVersion = 0xF9
         }
 
-        private enum StringReadMode {
+        private enum StringReadMode
+        {
             ReadLine,
             ReadToTerminator,
             ReadBlock
@@ -334,7 +335,7 @@ namespace Solid.Arduino
         /// <inheritdoc cref="IFirmataProtocol.ResetBoard"/>
         public void ResetBoard()
         {
-            _connection.Write(new [] { (byte)0xFF }, 0, 1);
+            _connection.Write(new[] { (byte)0xFF }, 0, 1);
         }
 
         /// <inheritdoc cref="IFirmataProtocol.SetDigitalPin(int,long)"/>
@@ -517,7 +518,7 @@ namespace Solid.Arduino
         public BoardCapability GetBoardCapability()
         {
             RequestBoardCapability();
-            return (BoardCapability)((FirmataMessage) GetMessageFromQueue(new FirmataMessage(MessageType.CapabilityResponse))).Value;
+            return (BoardCapability)((FirmataMessage)GetMessageFromQueue(new FirmataMessage(MessageType.CapabilityResponse))).Value;
         }
 
         /// <inheritdoc cref="IFirmataProtocol.GetBoardCapabilityAsync"/>
@@ -635,7 +636,7 @@ namespace Solid.Arduino
             if (microseconds < 0 || microseconds > 0x3FFF)
                 throw new ArgumentOutOfRangeException("microseconds", Messages.ArgumentEx_I2cInterval);
 
-            var command = new []
+            var command = new[]
             {
                 SysExStart,
                 (byte)0x78,
@@ -754,6 +755,37 @@ namespace Solid.Arduino
 
         #endregion
 
+        #region OneWireProtocol
+
+        public event EventHandler<OneWireReplyReceivedEventArgs> OneWireReplyReceived;
+
+        /// <summary>
+        /// Send a OneWire search request to the Arduino
+        /// </summary>
+        public void SendOneWireSearch()
+        {
+            /* OneWire SEARCH request
+             * ------------------------------
+             * 0  START_SYSEX (0xF0)
+             * 1  OneWire Command (0x73)
+             * 2  search command (0x40|0x44) //0x40 normal search for all devices on the bus. 0x44 SEARCH_ALARMS request to find only those devices that are in alarmed state.
+             * 3  pin (0-127)
+             * 4  END_SYSEX (0xF7)
+             */
+            byte[] command =
+            {
+                SysExStart,
+                0x73,
+                0x40, // Normal search
+                0x02, // Currently connected to pin 2
+                SysExEnd
+            };
+
+            _connection.Write(command, 0, command.Length);
+
+        }
+        #endregion
+
         #region IDisposable
 
         public void Dispose()
@@ -826,8 +858,8 @@ namespace Solid.Arduino
                     if (_receivedMessageList.Count > 0)
                     {
                         var message = (from firmataMessage in _receivedMessageList
-                            where firmataMessage.Type == awaitedMessage.Type
-                            select firmataMessage).FirstOrDefault();
+                                       where firmataMessage.Type == awaitedMessage.Type
+                                       select firmataMessage).FirstOrDefault();
                         if (message != null)
                         {
                             //if (_receivedMessageQueue.Count > 0
@@ -1157,6 +1189,10 @@ namespace Solid.Arduino
                     DeliverMessage(CreateStringDataMessage());
                     return;
 
+                case 0x73: // OneWireReply
+                    DeliverMessage(CreateOneWireReply());
+                    return;
+
                 case 0x77: // I2cReply
                     DeliverMessage(CreateI2CReply());
                     return;
@@ -1168,6 +1204,45 @@ namespace Solid.Arduino
                 default: // Unknown or unsupported message
                     throw new NotImplementedException();
             }
+        }
+
+        private FirmataMessage CreateOneWireReply()
+        {
+            /* OneWire SEARCH reply
+             * ------------------------------
+             * 0  START_SYSEX (0xF0)
+             * 1  OneWire Command (0x73)
+             * 2  search reply command (0x42|0x45) //0x42 normal search reply. 0x45 reply to a SEARCH_ALARMS request
+             * 3  pin (0-127)
+             * 4  bit 0-6   [optional] //address bytes encoded using 8 times 7 bit for 7 bytes of 8 bit
+             * 5  bit 7-13  [optional] //1.address[0] = byte[0]    + byte[1]<<7 & 0x7F
+             * 6  bit 14-20 [optional] //1.address[1] = byte[1]>>1 + byte[2]<<6 & 0x7F
+             * 7  ....                 //...
+             * 11 bit 49-55			   //1.address[6] = byte[6]>>6 + byte[7]<<1 & 0x7F
+             * 12 bit 56-63            //1.address[7] = byte[8]    + byte[9]<<7 & 0x7F
+             * 13 bit 64-69            //2.address[0] = byte[9]>>1 + byte[10]<<6 &0x7F
+             * n  ... // as many bytes as needed (don't exceed MAX_DATA_BYTES though)
+             * n+1  END_SYSEX (0xF7)
+             */
+            var reply = new OneWireReply();
+
+            reply.Command = (byte)_messageBuffer[1];
+            reply.SearchReply = (byte) _messageBuffer[2];
+            reply.Bus = (byte) _messageBuffer[3];
+
+            var data = new byte[(_messageBufferIndex - 4) / 2];
+
+            for (int x = 0; x < data.Length; x++)
+            {
+                data[x] = (byte)(_messageBuffer[x * 2 + 6] | _messageBuffer[x * 2 + 7] << 7);
+            }
+
+            reply.Data = data;
+
+            if (OneWireReplyReceived != null)
+                OneWireReplyReceived(this, new OneWireReplyReceivedEventArgs(reply));
+
+            return new FirmataMessage(reply, MessageType.OneWireReply);
         }
 
         private void DeliverMessage(FirmataMessage message)
@@ -1208,7 +1283,7 @@ namespace Solid.Arduino
             {
                 data[x] = (byte)(_messageBuffer[x * 2 + 6] | _messageBuffer[x * 2 + 7] << 7);
             }
-            
+
             reply.Data = data;
 
             if (I2CReplyReceived != null)
@@ -1356,7 +1431,7 @@ namespace Solid.Arduino
 
             var builder = new StringBuilder(_messageBufferIndex);
 
-            for (int x = 4; x < _messageBufferIndex; x += 2 )
+            for (int x = 4; x < _messageBufferIndex; x += 2)
             {
                 builder.Append((char)(_messageBuffer[x] | (_messageBuffer[x + 1] << 7)));
             }
