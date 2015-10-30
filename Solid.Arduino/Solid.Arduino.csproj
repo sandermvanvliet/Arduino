@@ -78,6 +78,7 @@
     <Compile Include="OneWireReply.cs" />
     <Compile Include="OneWireReplyReceivedEventArgs.cs" />
     <Compile Include="ReceivedStringTracker.cs" />
+    <Compile Include="SearchReply.cs" />
     <Compile Include="SerialBaudRate.cs" />
     <Compile Include="EnhancedSerialConnection.cs">
       <SubType>Component</SubType>

@@ -1227,7 +1227,7 @@ namespace Solid.Arduino
             var reply = new OneWireReply
             {
                 Command = (byte) _messageBuffer[1],
-                SearchReply = (byte) _messageBuffer[2],
+                SearchReply = (SearchReply) _messageBuffer[2],
                 Bus = (byte) _messageBuffer[3]
             };
 
