@@ -1224,11 +1224,13 @@ namespace Solid.Arduino
              * n  ... // as many bytes as needed (don't exceed MAX_DATA_BYTES though)
              * n+1  END_SYSEX (0xF7)
              */
-            var reply = new OneWireReply();
+            var reply = new OneWireReply
+            {
+                Command = (byte) _messageBuffer[1],
+                SearchReply = (byte) _messageBuffer[2],
+                Bus = (byte) _messageBuffer[3]
+            };
 
-            reply.Command = (byte)_messageBuffer[1];
-            reply.SearchReply = (byte) _messageBuffer[2];
-            reply.Bus = (byte) _messageBuffer[3];
 
             var data = new byte[(_messageBufferIndex - 4) / 2];
 
@@ -1240,7 +1242,9 @@ namespace Solid.Arduino
             reply.Data = data;
 
             if (OneWireReplyReceived != null)
+            {
                 OneWireReplyReceived(this, new OneWireReplyReceivedEventArgs(reply));
+            }
 
             return new FirmataMessage(reply, MessageType.OneWireReply);
         }
