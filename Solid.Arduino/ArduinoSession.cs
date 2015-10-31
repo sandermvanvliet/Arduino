@@ -1228,18 +1228,18 @@ namespace Solid.Arduino
             {
                 Command = (byte) _messageBuffer[1],
                 SearchReply = (SearchReply) _messageBuffer[2],
-                Bus = (byte) _messageBuffer[3]
+                Bus = (byte) _messageBuffer[3],
+                Sensors = new List<OneWireAddress>()
             };
 
+            var headerSize = 4;
 
-            var data = new byte[(_messageBufferIndex - 4) / 2];
+            var buff = _messageBuffer.Skip(headerSize).Take(_messageBufferIndex - headerSize).ToArray();
 
-            for (int x = 0; x < data.Length; x++)
+            if (buff.Any())
             {
-                data[x] = (byte)(_messageBuffer[x * 2 + 6] | _messageBuffer[x * 2 + 7] << 7);
+                reply.Sensors.Add(OneWireAddress.GetAddressFromBytes(buff));
             }
-
-            reply.Data = data;
 
             if (OneWireReplyReceived != null)
             {

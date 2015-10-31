@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Solid.Arduino
 {
     /// <summary>
@@ -22,5 +24,7 @@ namespace Solid.Arduino
         /// The OneWire bus identifier (or pin)
         /// </summary>
         public byte Bus { get; set; }
+
+        public List<OneWireAddress> Sensors { get; set; }
     }
 }

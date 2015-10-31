@@ -23,7 +23,11 @@ namespace Degree.Arduino.Test
 
         private static void HandleOneWireReplyReceived(OneWireReplyReceivedEventArgs eventArgs)
         {
-            Console.WriteLine(@"OneWire reply: {0}", eventArgs.Reply.Data);
+            Console.WriteLine(@"OneWire reply:");
+            foreach (var address in eventArgs.Reply.Sensors)
+            {
+                Console.WriteLine("\t" + address);
+            }
         }
 
         private static void HandleMessageReceived(FirmataMessageEventArgs eventArgs)
