@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Degree.Arduino.Test;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Solid.Arduino.Test
@@ -79,32 +80,13 @@ namespace Solid.Arduino.Test
 
             var buff = rawbuff.Skip(4).ToArray();
 
-            var a = new int[8];
-            var b = new int[8];
-
-            a[0] = buff[0] + (buff[1] << 7 & 0x7F);
-            a[1] = (buff[1] >> 1) + (buff[2] << 6 & 0x7F);
-            a[2] = (buff[2] >> 2) + (buff[3] << 5 & 0x7F);
-            a[3] = (buff[3] >> 3) + (buff[4] << 4 & 0x7F);
-            a[4] = (buff[4] >> 4) + (buff[5] << 3 & 0x7F);
-            a[5] = (buff[5] >> 5) + (buff[6] << 2 & 0x7F);
-            a[6] = (buff[6] >> 6) + (buff[7] << 1 & 0x7F);
-            a[7] = buff[8] + (buff[9] << 7 & 0x7F);
-            b[0] = (buff[9] >> 1) + (buff[10] << 6 & 0x7F);
-            b[1] = (buff[10] >> 1) + (buff[11] << 6 & 0x7F);
-            b[2] = (buff[11] >> 2) + (buff[12] << 5 & 0x7F);
-            b[3] = (buff[12] >> 3) + (buff[13] << 4 & 0x7F);
-            b[4] = (buff[13] >> 4) + (buff[14] << 3 & 0x7F);
-            b[5] = (buff[14] >> 5) + (buff[15] << 2 & 0x7F);
-            b[6] = (buff[15] >> 6) + (buff[16] << 1 & 0x7F);
-            b[7] = buff[17] + (buff[18] << 7 & 0x7F);
-
-            //var sensors = GetAddressesFrom(buff, buff.Length);
-            Assert.AreEqual("286C365E06000024", Dump(a));
-            Assert.AreEqual("287B3E5E06000044", Dump(b));
+            var addresses = new Encoder7BitClass().readBinary(16, buff.Select(b => (byte)b).ToArray());
+            
+            Assert.AreEqual("286C365E060000A4", Dump(addresses.Take(8)));
+            Assert.AreEqual("287B3E5E06000044", Dump(addresses.Skip(8).Take(8)));
         }
 
-        private string Dump(int[] buff)
+        private string Dump(IEnumerable<byte> buff)
         {
             return string.Join("", buff.Select(a => $"{a:X2}"));
         }

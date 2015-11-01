@@ -4,57 +4,57 @@ namespace Degree.Arduino.Test
 {
     public class Encoder7BitClass
     {
-        private int previous;
-        private int shift;
-        private readonly MemoryStream Firmata;
+        private int _previous;
+        private int _shift;
+        private readonly MemoryStream _firmata;
 
         public Encoder7BitClass()
         {
-            Firmata = new MemoryStream();
-            previous = 0;
-            shift = 0;
+            _firmata = new MemoryStream();
+            _previous = 0;
+            _shift = 0;
         }
 
-        public byte[] Buffer => Firmata.GetBuffer();
+        public byte[] Buffer => _firmata.GetBuffer();
 
         private void Write(int data)
         {
-            Firmata.WriteByte((byte)data);
+            _firmata.WriteByte((byte)data);
         }
 
         public void startBinaryWrite()
         {
-            shift = 0;
+            _shift = 0;
         }
 
         public void endBinaryWrite()
         {
-            if (shift > 0)
+            if (_shift > 0)
             {
-                Write(previous);
+                Write(_previous);
             }
         }
 
         public void writeBinary(byte data)
         {
-            if (shift == 0)
+            if (_shift == 0)
             {
                 Write(data & 0x7f);
-                shift++;
-                previous = data >> 7;
+                _shift++;
+                _previous = data >> 7;
             }
             else
             {
-                Write(((data << shift) & 0x7f) | previous);
-                if (shift == 6)
+                Write(((data << _shift) & 0x7f) | _previous);
+                if (_shift == 6)
                 {
                     Write(data >> 1);
-                    shift = 0;
+                    _shift = 0;
                 }
                 else
                 {
-                    shift++;
-                    previous = data >> (8 - shift);
+                    _shift++;
+                    _previous = data >> (8 - _shift);
                 }
             }
         }
