@@ -1225,38 +1225,7 @@ namespace Solid.Arduino
              * n  ... // as many bytes as needed (don't exceed MAX_DATA_BYTES though)
              * n+1  END_SYSEX (0xF7)
              */
-            var reply = new OneWireReply
-            {
-                Command = (byte) _messageBuffer[1],
-                SearchReply = (SearchReply) _messageBuffer[2],
-                Bus = (byte) _messageBuffer[3],
-                Sensors = new List<OneWireAddress>()
-            };
-
-            // 287B3E5E06000044
-            // 286C365E060000A4
-
-            var headerSize = 4;
-            var addressSize = 10;
-
-            Debug.WriteLine("");
-            Debug.WriteLine("var buff = new [] { ");
-            _messageBuffer
-                .Take(_messageBufferIndex)
-                .ToList()
-                .ForEach(b => Debug.Write(b + ","));
-            Debug.WriteLine("}");
-
-            for (var pointer = headerSize; pointer < _messageBufferIndex; pointer += addressSize)
-            {
-                var buff = _messageBuffer.Skip(pointer).Take(addressSize).ToArray();
-
-                if (buff.Any())
-                {
-                    reply.Sensors.Add(OneWireAddress.GetAddressFromBytes(buff));
-                }
-
-            }
+            var reply = OneWireMessageParser.Parse(_messageBuffer, _messageBufferIndex);
 
             if (OneWireReplyReceived != null)
             {

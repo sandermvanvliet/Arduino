@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 
 namespace Solid.Arduino
 {
@@ -7,18 +8,23 @@ namespace Solid.Arduino
         private int _previous;
         private int _shift;
         private readonly MemoryStream _firmata;
+        private int _bufferSize;
 
         public Encoder7BitClass()
         {
             _firmata = new MemoryStream();
             _previous = 0;
             _shift = 0;
+            _bufferSize = 0;
         }
 
-        public byte[] Buffer => _firmata.GetBuffer();
+        public byte[] Buffer => _firmata.GetBuffer().Take(BufferSize).ToArray();
+
+        public int BufferSize => _bufferSize;
 
         private void Write(int data)
         {
+            _bufferSize++;
             _firmata.WriteByte((byte)data);
         }
 

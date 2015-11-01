@@ -65,7 +65,7 @@
     <Compile Include="StringExtensionsTester.cs" />
     <Compile Include="SerialConnectionTester.cs" />
     <Compile Include="EnhancedSerialConnectionTester.cs" />
-    <Compile Include="WhenReadingOneWireAddres.cs" />
+    <Compile Include="WhenParsingAnOneWireReply.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Degree.Arduino.Test\Degree.Arduino.Test.csproj">
