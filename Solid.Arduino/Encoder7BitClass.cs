@@ -1,6 +1,6 @@
-﻿using System.IO;
+using System.IO;
 
-namespace Degree.Arduino.Test
+namespace Solid.Arduino
 {
     public class Encoder7BitClass
     {
