@@ -65,7 +65,7 @@ namespace Solid.Arduino
             }
         }
 
-        public byte[] readBinary(int outBytes, byte[] inData)
+        public static byte[] ReadBinary(int outBytes, byte[] inData)
         {
             byte[] outData = new byte[outBytes];
 

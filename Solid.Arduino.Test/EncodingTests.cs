@@ -32,7 +32,7 @@ namespace Solid.Arduino.Test
 
             var buffer = encoder.Buffer;
             
-            var result = encoder.readBinary(16, buffer);
+            var result = Encoder7BitClass.ReadBinary(16, buffer);
             Assert.AreEqual("286C365E06000024287B3E5E06000044", Dump(result));
         }
         [TestMethod]
@@ -60,7 +60,7 @@ namespace Solid.Arduino.Test
 
             var buffer = encoder.Buffer;
 
-            var result = encoder.readBinary(16, buffer);
+            var result = Encoder7BitClass.ReadBinary(16, buffer);
             Assert.AreEqual("287B3E5E06000044286C365E06000024", Dump(result));
         }
 

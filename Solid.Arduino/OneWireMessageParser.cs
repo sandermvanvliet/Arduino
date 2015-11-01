@@ -33,9 +33,6 @@ namespace Solid.Arduino
                 Sensors = new List<OneWireAddress>()
             };
 
-            // 287B3E5E06000044
-            // 286C365E060000A4
-
             var headerSize = 4;
             var addressSize = 8;
 
@@ -49,7 +46,7 @@ namespace Solid.Arduino
                 .Select(a => (byte)a)
                 .ToArray();
 
-            var decodedSensorBytes = new Encoder7BitClass().readBinary(numberOfSensors * addressSize, sensorBytes);
+            var decodedSensorBytes = Encoder7BitClass.ReadBinary(numberOfSensors * addressSize, sensorBytes);
 
             for (var pointer = 0; pointer < numberOfSensors; pointer++)
             {
