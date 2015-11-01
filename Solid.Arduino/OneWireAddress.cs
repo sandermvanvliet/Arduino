@@ -27,7 +27,7 @@ namespace Solid.Arduino
             address[4] = (buff[4] >> 4) + (buff[5] << 3 & 0x7F);
             address[5] = (buff[5] >> 5) + (buff[6] << 2 & 0x7F);
             address[6] = (buff[6] >> 6) + (buff[7] << 1 & 0x7F);
-            address[7] = buff[8] + (buff[0] << 7 & 0x7F);
+            address[7] = buff[8] + (buff[9] << 7 & 0x7F);
 
             return new OneWireAddress(address);
         }

@@ -1220,6 +1220,7 @@ namespace Solid.Arduino
              * 7  ....                 //...
              * 11 bit 49-55			   //1.address[6] = byte[6]>>6 + byte[7]<<1 & 0x7F
              * 12 bit 56-63            //1.address[7] = byte[8]    + byte[9]<<7 & 0x7F
+
              * 13 bit 64-69            //2.address[0] = byte[9]>>1 + byte[10]<<6 &0x7F
              * n  ... // as many bytes as needed (don't exceed MAX_DATA_BYTES though)
              * n+1  END_SYSEX (0xF7)
@@ -1232,13 +1233,29 @@ namespace Solid.Arduino
                 Sensors = new List<OneWireAddress>()
             };
 
+            // 287B3E5E06000044
+            // 286C365E060000A4
+
             var headerSize = 4;
+            var addressSize = 10;
 
-            var buff = _messageBuffer.Skip(headerSize).Take(_messageBufferIndex - headerSize).ToArray();
+            Debug.WriteLine("");
+            Debug.WriteLine("var buff = new [] { ");
+            _messageBuffer
+                .Take(_messageBufferIndex)
+                .ToList()
+                .ForEach(b => Debug.Write(b + ","));
+            Debug.WriteLine("}");
 
-            if (buff.Any())
+            for (var pointer = headerSize; pointer < _messageBufferIndex; pointer += addressSize)
             {
-                reply.Sensors.Add(OneWireAddress.GetAddressFromBytes(buff));
+                var buff = _messageBuffer.Skip(pointer).Take(addressSize).ToArray();
+
+                if (buff.Any())
+                {
+                    reply.Sensors.Add(OneWireAddress.GetAddressFromBytes(buff));
+                }
+
             }
 
             if (OneWireReplyReceived != null)

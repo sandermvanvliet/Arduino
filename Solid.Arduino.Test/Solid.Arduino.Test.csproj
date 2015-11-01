@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ByteArrayExtensionsTester.cs" />
+    <Compile Include="EncodingTests.cs" />
     <Compile Include="ExceptionMonitor.cs" />
     <Compile Include="I2cProtocolTester.cs" />
     <Compile Include="IFirmataProtocolTester.cs" />
@@ -64,8 +65,13 @@
     <Compile Include="StringExtensionsTester.cs" />
     <Compile Include="SerialConnectionTester.cs" />
     <Compile Include="EnhancedSerialConnectionTester.cs" />
+    <Compile Include="WhenReadingOneWireAddres.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Degree.Arduino.Test\Degree.Arduino.Test.csproj">
+      <Project>{ECAA5B9D-CB07-4D29-9E25-A7D65F9FCD92}</Project>
+      <Name>Degree.Arduino.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Solid.Arduino\Solid.Arduino.csproj">
       <Project>{fdf9e431-2390-4c7b-ae60-10183439a683}</Project>
       <Name>Solid.Arduino</Name>
