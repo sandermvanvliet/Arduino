@@ -1,6 +1,10 @@
 version: 1.0.{build}
+configuration: Release
+platform: Any CPU
 before_build:
   - nuget restore
-
 build:
+  publish_nuget: true
   verbosity: minimal
+test:
+  assemblies: Solid.Arduino.Test.dll
