@@ -98,17 +98,17 @@ namespace Solid.Arduino
 
         public void Write(string text)
         {
-            throw new NotImplementedException();
+            serialPort.Write(text);
         }
 
         public void Write(byte[] buffer, int offset, int count)
         {
-            throw new NotImplementedException();
+            serialPort.Write(buffer, offset, count);
         }
 
         public void WriteLine(string text)
         {
-            throw new NotImplementedException();
+            serialPort.WriteLine(text);
         }
     }
 }
