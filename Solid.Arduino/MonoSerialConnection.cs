@@ -48,7 +48,7 @@ namespace Solid.Arduino
         public event SerialDataReceivedEventHandler DataReceived;
         public int BaudRate { get; set; }
         public string PortName { get; set; }
-        public bool IsOpen { get; }
+        public bool IsOpen { get { return serialPort.IsOpen; } }
         public string NewLine { get; set; }
 
         public int BytesToRead
