@@ -17,6 +17,7 @@ namespace Solid.Arduino
         private bool isDisposed;
         private Task serialReadTask;
         private readonly MemoryStream internalBuffer;
+        private long totalWritten;
 
         public MonoSerialConnection(string portName, SerialBaudRate baudRate)
         {
@@ -49,7 +50,11 @@ namespace Solid.Arduino
         public string PortName { get; set; }
         public bool IsOpen { get; }
         public string NewLine { get; set; }
-        public int BytesToRead { get; }
+
+        public int BytesToRead
+        {
+            get { return (int)(totalWritten - internalBuffer.Position); }
+        }
 
         public void Open()
         {
@@ -73,6 +78,7 @@ namespace Solid.Arduino
                     foreach(var b in buffer.Take(bytesRead))
                     {
                         internalBuffer.WriteByte(b);
+                        totalWritten++;
                     }
 
                     RaiseBytesRead();
