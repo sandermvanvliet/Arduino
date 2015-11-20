@@ -81,6 +81,8 @@ namespace Solid.Arduino
                         totalWritten++;
                     }
 
+                    Console.WriteLine("totalWritten: " + totalWritten + " BytesToRead is now: " + BytesToRead);
+
                     RaiseBytesRead();
                 }
             }
