@@ -75,6 +75,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
+    <Compile Include="MonoSerialConnection.cs" />
     <Compile Include="ObservableEventTracker.cs" />
     <Compile Include="OneWireAddress.cs" />
     <Compile Include="OneWireMessageParser.cs" />

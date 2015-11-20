@@ -8,7 +8,7 @@ namespace Degree.Arduino.Test
     {
         private static void Main(string[] args)
         {
-            var connection = new EnhancedSerialConnection(args[0], SerialBaudRate.Bps_57600);
+            var connection = new MonoSerialConnection(args[0], SerialBaudRate.Bps_57600);
             var session = new ArduinoSession(connection, 250);
 
             session.MessageReceived += (sender, eventArgs) => HandleMessageReceived(eventArgs);
