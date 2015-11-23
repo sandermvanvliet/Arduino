@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Solid.Arduino
         private readonly SerialPort serialPort;
         private bool isDisposed;
         private Task serialReadTask;
-        private readonly MemoryStream internalBuffer;
+        private readonly Queue<byte> internalBuffer;
         private long totalWritten;
 
         public MonoSerialConnection(string portName, SerialBaudRate baudRate)
@@ -27,7 +28,7 @@ namespace Solid.Arduino
             cancellationTokenSource = new CancellationTokenSource();
             serialPort = new SerialPort(portName, (int)baudRate);
 
-            internalBuffer = new MemoryStream();
+            internalBuffer = new Queue<byte>();
         }
 
         public void Dispose()
@@ -53,7 +54,7 @@ namespace Solid.Arduino
 
         public int BytesToRead
         {
-            get { return (int)(totalWritten - internalBuffer.Position); }
+            get { return internalBuffer.Count; }
         }
 
         public void Open()
@@ -77,7 +78,7 @@ namespace Solid.Arduino
 
                     foreach (var b in buffer.Take(bytesRead))
                     {
-                        internalBuffer.WriteByte(b);
+                        internalBuffer.Enqueue(b);
                         totalWritten++;
                     }
 
@@ -104,7 +105,7 @@ namespace Solid.Arduino
 
         public int ReadByte()
         {
-            return internalBuffer.ReadByte();
+            return internalBuffer.Dequeue();
         }
 
         public void Write(string text)
