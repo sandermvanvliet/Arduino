@@ -957,27 +957,27 @@ namespace Solid.Arduino
 
 //#if DEBUG
                 if (_messageBufferIndex > 0 && _messageBufferIndex % 8 == 0)
-                    Debug.WriteLine(string.Empty);
+                    Console.WriteLine(string.Empty);
 
                 Debug.Write(string.Format("{0:x2} ", serialByte));
 //#endif
 
                 if (_processMessage != null)
                 {
-                    Debug.WriteLine("Calling _processMessage");
+                    Console.WriteLine("Calling _processMessage");
                     _processMessage(serialByte);
                 }
                 else
                 {
                     if ((serialByte & 0x80) != 0)
                     {
-                        Debug.WriteLine("[SerialDataReceived] Calling ProcessCommand");
+                        Console.WriteLine("[SerialDataReceived] Calling ProcessCommand");
                         // Process Firmata command byte.
                         ProcessCommand(serialByte);
                     }
                     else
                     {
-                        Debug.WriteLine("[SerialDataReceived] Calling ProcessAsciiString");
+                        Console.WriteLine("[SerialDataReceived] Calling ProcessAsciiString");
                         // Process ASCII character.
                         ProcessAsciiString(serialByte);
                     }
@@ -1066,7 +1066,7 @@ namespace Solid.Arduino
             _messageBufferIndex = 1;
             MessageHeader header = (MessageHeader)(serialByte & 0xF0);
 
-            Debug.WriteLine("[ProcessCommand] header is " + header);
+            Console.WriteLine("[ProcessCommand] header is " + header);
 
             switch (header)
             {

@@ -108,6 +108,7 @@ namespace Solid.Arduino
 
         public void Write(string text)
         {
+					Console.WriteLine("Writing " + text + " to serial port");
             serialPort.Write(text);
         }
 
