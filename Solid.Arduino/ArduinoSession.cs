@@ -959,12 +959,11 @@ namespace Solid.Arduino
                 if (_messageBufferIndex > 0 && _messageBufferIndex % 8 == 0)
                     Console.WriteLine(string.Empty);
 
-                Debug.Write(string.Format("{0:x2} ", serialByte));
+                Console.Write(string.Format("{0:x2} ", serialByte));
 //#endif
 
                 if (_processMessage != null)
                 {
-                    Console.WriteLine("Calling _processMessage");
                     _processMessage(serialByte);
                 }
                 else
