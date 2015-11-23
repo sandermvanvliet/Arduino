@@ -18,7 +18,6 @@ namespace Solid.Arduino
         private bool isDisposed;
         private Task serialReadTask;
         private readonly Queue<byte> internalBuffer;
-        private long totalWritten;
 
         public MonoSerialConnection(string portName, SerialBaudRate baudRate)
         {
@@ -79,10 +78,9 @@ namespace Solid.Arduino
                     foreach (var b in buffer.Take(bytesRead))
                     {
                         internalBuffer.Enqueue(b);
-                        totalWritten++;
                     }
 
-                    Console.WriteLine("totalWritten: " + totalWritten + " BytesToRead is now: " + BytesToRead);
+                    Console.WriteLine("BytesToRead is now: " + BytesToRead);
 
                     RaiseBytesRead();
                 }
