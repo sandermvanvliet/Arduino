@@ -19,6 +19,9 @@ namespace Degree.Arduino.Test
             session.SendOneWireSearch();
 
             Console.ReadLine();
+            connection.Close();
+
+            Console.WriteLine("Done!");
         }
 
         private static void HandleOneWireReplyReceived(OneWireReplyReceivedEventArgs eventArgs)
