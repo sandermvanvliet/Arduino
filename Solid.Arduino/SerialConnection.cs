@@ -152,7 +152,7 @@ namespace Solid.Arduino
         /// Finds a serial connection to a device supporting plain serial communications.
         /// </summary>
         /// <param name="query">The query text used to inquire the connection</param>
-        /// <param name="expectedReply">The reply text the connected device is expected to respond with</param>
+        /// <param name="expectedReply">The SearchReply text the connected device is expected to respond with</param>
         /// <returns>A <see cref="ISerialConnection"/> instance or <c>null</c> if no connection is found</returns>
         /// <remarks>
         /// <para>
@@ -161,8 +161,8 @@ namespace Solid.Arduino
         /// The connection is tested by sending the query string passed to this method.
         /// </para>
         /// <para>
-        /// The connected device is expected to respond by sending the reply string passed to this method.
-        /// When the string received is equal to the expected reply string, the connection is regarded to be valid.
+        /// The connected device is expected to respond by sending the SearchReply string passed to this method.
+        /// When the string received is equal to the expected SearchReply string, the connection is regarded to be valid.
         /// </para>
         /// </remarks>
         /// <example>
@@ -170,7 +170,7 @@ namespace Solid.Arduino
         /// Upload the sketch to your Arduino device.
         /// <code lang="Arduino Sketch">
         /// char query[] = "Hello?";
-        /// char reply[] = "Arduino!";
+        /// char SearchReply[] = "Arduino!";
         ///
         /// void setup()
         /// {
@@ -182,7 +182,7 @@ namespace Solid.Arduino
         /// {
         ///   if (Serial.find(query))
         ///   {
-        ///     Serial.println(reply);
+        ///     Serial.println(SearchReply);
         ///   }
         ///   else
         ///   {

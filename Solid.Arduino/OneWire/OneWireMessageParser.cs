@@ -5,11 +5,11 @@ namespace Solid.Arduino.OneWire
 {
     public class OneWireMessageParser
     {
-        /* OneWire SEARCH reply
+        /* OneWire SEARCH SearchReply
              * ------------------------------
              * 0  START_SYSEX (0xF0)
              * 1  OneWire Command (0x73)
-             * 2  search reply command (0x42|0x45) //0x42 normal search reply. 0x45 reply to a SEARCH_ALARMS request
+             * 2  search SearchReply command (0x42|0x45) //0x42 normal search SearchReply. 0x45 SearchReply to a SEARCH_ALARMS request
              * 3  pin (0-127)
              * 4  bit 0-6   [optional] //address bytes encoded using 8 times 7 bit for 7 bytes of 8 bit
              * 5  bit 7-13  [optional] //1.address[0] = byte[0]    + byte[1]<<7 & 0x7F
@@ -23,11 +23,11 @@ namespace Solid.Arduino.OneWire
              * n+1  END_SYSEX (0xF7)
              */
 
-        public static OneWireReply Parse(int[] buffer, int size)
+        public static OneWireSearchReply ParseSearchReply(int[] buffer, int size)
         {
-            var reply = new OneWireReply
+            var reply = new OneWireSearchReply
             {
-                Command = (byte)buffer[1],
+                Command = (OneWireCommand)buffer[1],
                 SearchReply = (SearchReply)buffer[2],
                 Bus = (byte)buffer[3],
                 Sensors = new List<OneWireAddress>()
@@ -55,6 +55,11 @@ namespace Solid.Arduino.OneWire
             }
 
             return reply;
+        }
+
+        public static OneWireReadReply ParseReadReply(int[] messageBuffer, int messageBufferIndex)
+        {
+            return default(OneWireReadReply);
         }
     }
 }

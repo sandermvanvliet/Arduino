@@ -777,7 +777,7 @@ namespace Solid.Arduino
             {
                 SysExStart,
                 0x73,
-                0x40, // Normal search
+                (byte)OneWireCommand.SearchNormalRequest, // Normal search
                 0x02, // Currently connected to pin 2
                 SysExEnd
             };
@@ -1226,7 +1226,7 @@ namespace Solid.Arduino
                     DeliverMessage(CreateStringDataMessage());
                     return;
 
-                case 0x73: // OneWireReply
+                case 0x73: // OneWireSearchReply
                     DeliverMessage(CreateOneWireReply());
                     return;
 
@@ -1245,11 +1245,11 @@ namespace Solid.Arduino
 
         private FirmataMessage CreateOneWireReply()
         {
-            /* OneWire SEARCH reply
+            /* OneWire SEARCH SearchReply
              * ------------------------------
              * 0  START_SYSEX (0xF0)
              * 1  OneWire Command (0x73)
-             * 2  search reply command (0x42|0x45) //0x42 normal search reply. 0x45 reply to a SEARCH_ALARMS request
+             * 2  search SearchReply command (0x42|0x45) //0x42 normal search SearchReply. 0x45 SearchReply to a SEARCH_ALARMS request
              * 3  pin (0-127)
              * 4  bit 0-6   [optional] //address bytes encoded using 8 times 7 bit for 7 bytes of 8 bit
              * 5  bit 7-13  [optional] //1.address[0] = byte[0]    + byte[1]<<7 & 0x7F
@@ -1262,14 +1262,31 @@ namespace Solid.Arduino
              * n  ... // as many bytes as needed (don't exceed MAX_DATA_BYTES though)
              * n+1  END_SYSEX (0xF7)
              */
-            var reply = OneWireMessageParser.Parse(_messageBuffer, _messageBufferIndex);
+
+            var replyCommandType = (OneWireCommand)_messageBuffer[2];
+
+            if (replyCommandType == OneWireCommand.SearchNormalReply ||
+                replyCommandType == OneWireCommand.SearchAlarmsReply)
+            {
+                var reply = OneWireMessageParser.ParseSearchReply(_messageBuffer, _messageBufferIndex);
+
+                if (OneWireReplyReceived != null)
+                {
+                    OneWireReplyReceived(this, new OneWireReplyReceivedEventArgs(reply));
+                }
+
+                return new FirmataMessage(reply, MessageType.OneWireReply);
+            }
+
+            var readReply = OneWireMessageParser.ParseReadReply(_messageBuffer, _messageBufferIndex);
 
             if (OneWireReplyReceived != null)
             {
-                OneWireReplyReceived(this, new OneWireReplyReceivedEventArgs(reply));
+                OneWireReplyReceived(this, new OneWireReplyReceivedEventArgs(readReply));
             }
 
-            return new FirmataMessage(reply, MessageType.OneWireReply);
+            return new FirmataMessage(readReply, MessageType.OneWireReply);
+
         }
 
         private void DeliverMessage(FirmataMessage message)

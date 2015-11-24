@@ -36,8 +36,8 @@ namespace Degree.Arduino.Test
 
         private static void HandleOneWireReplyReceived(OneWireReplyReceivedEventArgs eventArgs)
         {
-            Console.WriteLine(@"OneWire reply:");
-            foreach (var address in eventArgs.Reply.Sensors)
+            Console.WriteLine(@"OneWire SearchReply:");
+            foreach (var address in eventArgs.SearchReply.Sensors)
             {
                 Console.WriteLine("\t" + address);
             }

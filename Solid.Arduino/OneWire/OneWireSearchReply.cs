@@ -3,21 +3,21 @@ using System.Collections.Generic;
 namespace Solid.Arduino.OneWire
 {
     /// <summary>
-    /// Wraps the OneWire reply message to a OneWire command
+    /// Wraps the OneWire SearchReply message to a OneWire command
     /// </summary>
-    public struct OneWireReply
+    public struct OneWireSearchReply
     {
         /// <summary>
         /// Raw data in rest of message
         /// </summary>
         public byte[] Data { get; set; }
         /// <summary>
-        /// The command that triggered this reply
+        /// The command that triggered this SearchReply
         /// </summary>
-        public byte Command { get; set; }
+        public OneWireCommand Command { get; set; }
         /// <summary>
         /// The type of search that was requested
-        /// (0x42|0x45) //0x42 normal search reply. 0x45 reply to a SEARCH_ALARMS request
+        /// (0x42|0x45) //0x42 normal search SearchReply. 0x45 SearchReply to a SEARCH_ALARMS request
         /// </summary>
         public SearchReply SearchReply { get; set; }
         /// <summary>

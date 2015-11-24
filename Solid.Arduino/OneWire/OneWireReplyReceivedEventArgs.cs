@@ -2,13 +2,20 @@ using System;
 
 namespace Solid.Arduino.OneWire
 {
-    public class OneWireReplyReceivedEventArgs: EventArgs
+    public class OneWireReplyReceivedEventArgs : EventArgs
     {
-        public OneWireReply Reply { get; set; }
-
-        public OneWireReplyReceivedEventArgs(OneWireReply reply)
+        public OneWireReplyReceivedEventArgs(OneWireSearchReply searchReply)
         {
-            Reply = reply;
+            SearchReply = searchReply;
         }
+
+        public OneWireReplyReceivedEventArgs(OneWireReadReply readReply)
+        {
+            ReadReply = readReply;
+        }
+
+        public OneWireSearchReply SearchReply { get; private set; }
+
+        public OneWireReadReply ReadReply { get; private set; }
     }
 }

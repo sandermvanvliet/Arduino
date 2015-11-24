@@ -7,11 +7,11 @@ namespace Solid.Arduino.Test
     [TestClass]
     public class WhenParsingAnOneWireReply
     {
-        /* OneWire SEARCH reply
+        /* OneWire SEARCH SearchReply
              * ------------------------------
              * 0  START_SYSEX (0xF0)
              * 1  OneWire Command (0x73)
-             * 2  search reply command (0x42|0x45) //0x42 normal search reply. 0x45 reply to a SEARCH_ALARMS request
+             * 2  search SearchReply command (0x42|0x45) //0x42 normal search SearchReply. 0x45 SearchReply to a SEARCH_ALARMS request
              * 3  pin (0-127)
              * 4  bit 0-6   [optional] //address bytes encoded using 8 times 7 bit for 7 bytes of 8 bit
              * 5  bit 7-13  [optional] //1.address[0] = byte[0]    + byte[1]<<7 & 0x7F
@@ -30,7 +30,7 @@ namespace Solid.Arduino.Test
         {
             var messageBuffer = new[] { 0xF0, 0x73, 0x42, 0x02 };
 
-            var reply = OneWireMessageParser.Parse(messageBuffer, messageBuffer.Length);
+            var reply = OneWireMessageParser.ParseSearchReply(messageBuffer, messageBuffer.Length);
 
             Assert.AreEqual(0, reply.Sensors.Count);
         }
@@ -45,7 +45,7 @@ namespace Solid.Arduino.Test
             .Concat(Encoded())
             .ToArray();
 
-            var reply = OneWireMessageParser.Parse(messageBuffer, messageBuffer.Length);
+            var reply = OneWireMessageParser.ParseSearchReply(messageBuffer, messageBuffer.Length);
 
             Assert.AreEqual("287B3E5E06000044", reply.Sensors.Single().ToString());
         }
@@ -60,7 +60,7 @@ namespace Solid.Arduino.Test
             .Concat(Encoded(4))
             .ToArray();
 
-            var reply = OneWireMessageParser.Parse(messageBuffer, messageBuffer.Length);
+            var reply = OneWireMessageParser.ParseSearchReply(messageBuffer, messageBuffer.Length);
 
             Assert.AreEqual(4, reply.Sensors.Count);
         }
