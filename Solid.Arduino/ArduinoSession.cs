@@ -956,13 +956,6 @@ namespace Solid.Arduino
             {
                 int serialByte = _connection.ReadByte();
 
-#if DEBUG
-                if (_messageBufferIndex > 0 && _messageBufferIndex % 8 == 0)
-                    Console.WriteLine(string.Empty);
-
-                Console.Write(string.Format("{0:x2} ", serialByte));
-#endif
-
                 if (_processMessage != null)
                 {
                     _processMessage(serialByte);
