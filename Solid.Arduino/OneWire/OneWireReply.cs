@@ -21,10 +21,6 @@ namespace Solid.Arduino.OneWire
         /// </summary>
         public SearchReply SearchReply { get; set; }
         /// <summary>
-        /// Contains the data for a read request
-        /// </summary>
-        public ReadReply ReadReply { get; set; }
-        /// <summary>
         /// The OneWire bus identifier (or pin)
         /// </summary>
         public byte Bus { get; set; }
