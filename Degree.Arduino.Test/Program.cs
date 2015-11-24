@@ -7,7 +7,7 @@ namespace Degree.Arduino.Test
 {
     internal class Program
     {
-        private static readonly object SyncRoot = new object();
+        private static readonly AutoResetEvent ResetEvent = new AutoResetEvent(false);
 
         private static void Main(string[] args)
         {
@@ -18,7 +18,7 @@ namespace Degree.Arduino.Test
 
             session.OneWireReplyReceived += (sender, eventArgs) => HandleOneWireReplyReceived(eventArgs);
 
-            Monitor.Wait(SyncRoot);
+            ResetEvent.WaitOne();
 
             Console.WriteLine("Setting digital pinmode");
             session.SetDigitalPinMode(2, PinMode.OneWire);
@@ -45,7 +45,7 @@ namespace Degree.Arduino.Test
         {
             if (eventArgs.Value.Type == MessageType.ProtocolVersion)
             {
-                Monitor.Pulse(SyncRoot);
+                ResetEvent.Set();
             }
 
             Console.WriteLine(@"Message: {0}", eventArgs.Value.Type);
