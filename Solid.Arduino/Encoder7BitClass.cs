@@ -79,5 +79,10 @@ namespace Solid.Arduino
 
             return outData;
         }
+
+        public static byte[] Encode(byte[] oneWireCommand)
+        {
+            return null;
+        }
     }
 }

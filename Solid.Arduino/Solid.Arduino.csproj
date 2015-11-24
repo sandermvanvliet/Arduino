@@ -78,6 +78,7 @@
     <Compile Include="MonoSerialConnection.cs" />
     <Compile Include="ObservableEventTracker.cs" />
     <Compile Include="OneWire\OneWireAddress.cs" />
+    <Compile Include="OneWire\OneWireCommand.cs" />
     <Compile Include="OneWire\OneWireMessageParser.cs" />
     <Compile Include="OneWire\OneWireReply.cs" />
     <Compile Include="OneWire\OneWireReplyReceivedEventArgs.cs" />

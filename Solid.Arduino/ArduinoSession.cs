@@ -785,6 +785,49 @@ namespace Solid.Arduino
             _connection.Write(command, 0, command.Length);
 
         }
+
+        public void SensOneWireSensorRead(byte[] sensorAddress)
+        {
+            // 1-wire command bits:
+            // 0 -> reset
+            // 1 -> skip
+            // 2 -> select
+            // 3 -> read
+            // 4 -> delay
+            // 5 -> write
+            var oneWireCommand = OneWireCommand.Reset | OneWireCommand.Select | OneWireCommand.Delay |
+                                  OneWireCommand.Write;// reset, select, delay, write
+
+            var encoder = new Encoder7BitClass();
+            encoder.startBinaryWrite();
+            foreach (var b in sensorAddress)
+            {
+                encoder.writeBinary(b);
+            }
+            encoder.writeBinary(0x0);   // Number of bytes to read LSB
+            encoder.writeBinary(0x0);   // Number of bytes to read MSB
+            encoder.writeBinary(0x0);   // Request correlation id byte 0
+            encoder.writeBinary(0x0);   // Request correlation id byte 1
+            encoder.writeBinary(0xEE);  // Delay in ms bits 0-7
+            encoder.writeBinary(0xA);   // Delay in ms bits 8-15
+            encoder.writeBinary(0x0);   // Delay in ms bits 16-23
+            encoder.writeBinary(0x0);   // Delay in ms bits 24-31
+            encoder.writeBinary(0x44);  // Data to write bits 0-7
+            encoder.writeBinary(0x0);   // Data to write bits 8-15
+            encoder.writeBinary(0x0);   // Data to write bits 16-23
+            encoder.endBinaryWrite();
+
+            List<byte> command = new List<byte>();
+            command.Add(SysExStart);
+            command.Add(0x73);
+            command.Add((byte)oneWireCommand);
+            command.Add(0x2);   // Pin
+            command.AddRange(encoder.Buffer);
+            command.Add(SysExEnd);
+
+            _connection.Write(command.ToArray(), 0, command.Count);
+        }
+
         #endregion
 
         #region IDisposable
