@@ -1,4 +1,4 @@
-namespace Solid.Arduino
+namespace Solid.Arduino.OneWire
 {
     /// <summary>
     /// SearchReply enumeration
