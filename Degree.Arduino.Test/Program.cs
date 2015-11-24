@@ -19,6 +19,7 @@ namespace Degree.Arduino.Test
 
             session.OneWireReplyReceived += (sender, eventArgs) => HandleOneWireReplyReceived(eventArgs);
 
+						Console.WriteLine("Waiting for ProtocolVersion");
             ResetEvent.WaitOne();
 
             Console.WriteLine("Setting digital pinmode");
@@ -44,12 +45,13 @@ namespace Degree.Arduino.Test
 
         private static void HandleMessageReceived(FirmataMessageEventArgs eventArgs)
         {
-            if (eventArgs.Value.Type == MessageType.ProtocolVersion)
+            Console.WriteLine(@"Message: {0}", eventArgs.Value.Type);
+
+            if (eventArgs.Value.Type == MessageType.FirmwareResponse)
             {
+							Console.WriteLine("Signalling ResetEvent");
                 ResetEvent.Set();
             }
-
-            Console.WriteLine(@"Message: {0}", eventArgs.Value.Type);
         }
     }
 }
