@@ -68,19 +68,14 @@ namespace Solid.Arduino
             var buffer = new byte[32];
             while (true)
             {
-                Console.WriteLine("attempting to read bytes");
                 var bytesRead = await serialPort.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancellationTokenSource.Token);
 
                 if (bytesRead > 0)
                 {
-                    Console.WriteLine("read " + bytesRead + " bytes");
-
                     foreach (var b in buffer.Take(bytesRead))
                     {
                         internalBuffer.Enqueue(b);
                     }
-
-                    Console.WriteLine("BytesToRead is now: " + BytesToRead);
 
                     RaiseBytesRead();
                 }
@@ -108,7 +103,6 @@ namespace Solid.Arduino
 
         public void Write(string text)
         {
-					Console.WriteLine("Writing " + text + " to serial port");
             serialPort.Write(text);
         }
 
