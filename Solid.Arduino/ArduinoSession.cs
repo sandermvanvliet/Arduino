@@ -796,7 +796,7 @@ namespace Solid.Arduino
             // 4 -> delay
             // 5 -> write
             var oneWireCommand = OneWireCommand.Reset | OneWireCommand.Select | OneWireCommand.Delay |
-                                  OneWireCommand.Write;// reset, select, delay, write
+                                  OneWireCommand.Write | OneWireCommand.Read;// reset, select, delay, write
 
             var encoder = new Encoder7BitClass();
             encoder.startBinaryWrite();
