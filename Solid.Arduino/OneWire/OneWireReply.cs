@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Solid.Arduino
+namespace Solid.Arduino.OneWire
 {
     /// <summary>
     /// Wraps the OneWire reply message to a OneWire command

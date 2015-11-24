@@ -1,6 +1,6 @@
 using System;
 
-namespace Solid.Arduino
+namespace Solid.Arduino.OneWire
 {
     public class OneWireReplyReceivedEventArgs: EventArgs
     {

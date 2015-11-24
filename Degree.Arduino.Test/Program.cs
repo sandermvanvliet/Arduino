@@ -2,6 +2,7 @@
 using System.Threading;
 using Solid.Arduino;
 using Solid.Arduino.Firmata;
+using Solid.Arduino.OneWire;
 
 namespace Degree.Arduino.Test
 {

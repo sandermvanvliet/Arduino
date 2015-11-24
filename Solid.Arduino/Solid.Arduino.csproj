@@ -77,10 +77,10 @@
     </Compile>
     <Compile Include="MonoSerialConnection.cs" />
     <Compile Include="ObservableEventTracker.cs" />
-    <Compile Include="OneWireAddress.cs" />
-    <Compile Include="OneWireMessageParser.cs" />
-    <Compile Include="OneWireReply.cs" />
-    <Compile Include="OneWireReplyReceivedEventArgs.cs" />
+    <Compile Include="OneWire\OneWireAddress.cs" />
+    <Compile Include="OneWire\OneWireMessageParser.cs" />
+    <Compile Include="OneWire\OneWireReply.cs" />
+    <Compile Include="OneWire\OneWireReplyReceivedEventArgs.cs" />
     <Compile Include="ReceivedStringTracker.cs" />
     <Compile Include="SearchReply.cs" />
     <Compile Include="SerialBaudRate.cs" />

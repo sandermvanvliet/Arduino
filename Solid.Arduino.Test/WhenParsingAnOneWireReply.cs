@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Solid.Arduino.OneWire;
 
 namespace Solid.Arduino.Test
 {

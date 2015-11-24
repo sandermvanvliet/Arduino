@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Solid.Arduino
+namespace Solid.Arduino.OneWire
 {
     public class OneWireAddress
     {

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace Solid.Arduino
+namespace Solid.Arduino.OneWire
 {
     public class OneWireMessageParser
     {

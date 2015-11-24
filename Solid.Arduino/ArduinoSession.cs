@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Solid.Arduino.Firmata;
 using Solid.Arduino.Firmata.Servo;
 using Solid.Arduino.I2C;
+using Solid.Arduino.OneWire;
 
 namespace Solid.Arduino
 {
