@@ -11,47 +11,47 @@ namespace Solid.Arduino.Test
         [TestMethod]
         public void Reset()
         {
-            Assert.AreEqual("00000001", ToByte(OneWireCommand.Reset));
+            Assert.AreEqual("00000001", ToByte(OneWireCommandFlags.Reset));
         }
 
 
         [TestMethod]
         public void Skip()
         {
-            Assert.AreEqual("00000010", ToByte(OneWireCommand.Skip));
+            Assert.AreEqual("00000010", ToByte(OneWireCommandFlags.Skip));
         }
 
         [TestMethod]
         public void Select()
         {
-            Assert.AreEqual("00000100", ToByte(OneWireCommand.Select));
+            Assert.AreEqual("00000100", ToByte(OneWireCommandFlags.Select));
         }
 
         [TestMethod]
         public void Read()
         {
-            Assert.AreEqual("00001000", ToByte(OneWireCommand.Read));
+            Assert.AreEqual("00001000", ToByte(OneWireCommandFlags.Read));
         }
 
         [TestMethod]
         public void Delay()
         {
-            Assert.AreEqual("00010000", ToByte(OneWireCommand.Delay));
+            Assert.AreEqual("00010000", ToByte(OneWireCommandFlags.Delay));
         }
 
         [TestMethod]
         public void Write()
         {
-            Assert.AreEqual("00100000", ToByte(OneWireCommand.Write));
+            Assert.AreEqual("00100000", ToByte(OneWireCommandFlags.Write));
         }
 
         [TestMethod]
         public void ResetAndSelect()
         {
-            Assert.AreEqual("00000101", ToByte(OneWireCommand.Reset | OneWireCommand.Select));
+            Assert.AreEqual("00000101", ToByte(OneWireCommandFlags.Reset | OneWireCommandFlags.Select));
         }
 
-        private string ToByte(OneWireCommand flags)
+        private string ToByte(OneWireCommandFlags flags)
         {
             return Convert.ToString((byte)flags, 2).PadLeft(8, '0');
         }

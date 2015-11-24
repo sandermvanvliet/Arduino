@@ -3,7 +3,7 @@ using System;
 namespace Solid.Arduino.OneWire
 {
     [Flags]
-    public enum OneWireCommand
+    public enum OneWireCommandFlags
     {
         // bit 0 = reset, bit 1 = skip, bit 2 = select, bit 3 = read, bit 4 = delay, bit 5 = write
         None = 0,
