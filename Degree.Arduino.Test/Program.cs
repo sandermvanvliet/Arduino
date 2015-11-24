@@ -19,7 +19,7 @@ namespace Degree.Arduino.Test
 
             session.OneWireReplyReceived += (sender, eventArgs) => HandleOneWireReplyReceived(eventArgs);
 
-            Console.WriteLine("Waiting for ProtocolVersion");
+            Console.WriteLine("Waiting for FirmwareResponse");
             ResetEvent.WaitOne();
 
             Console.WriteLine("Setting digital pinmode");
