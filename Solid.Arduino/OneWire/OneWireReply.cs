@@ -20,6 +20,9 @@ namespace Solid.Arduino.OneWire
         /// (0x42|0x45) //0x42 normal search reply. 0x45 reply to a SEARCH_ALARMS request
         /// </summary>
         public SearchReply SearchReply { get; set; }
+        /// <summary>
+        /// Contains the data for a read request
+        /// </summary>
         public ReadReply ReadReply { get; set; }
         /// <summary>
         /// The OneWire bus identifier (or pin)
