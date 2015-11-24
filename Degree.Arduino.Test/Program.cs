@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Solid.Arduino;
 using Solid.Arduino.Firmata;
 
@@ -6,6 +7,8 @@ namespace Degree.Arduino.Test
 {
     internal class Program
     {
+        private static readonly object SyncRoot = new object();
+
         private static void Main(string[] args)
         {
             var connection = new MonoSerialConnection(args[0], SerialBaudRate.Bps_57600);
@@ -15,7 +18,7 @@ namespace Degree.Arduino.Test
 
             session.OneWireReplyReceived += (sender, eventArgs) => HandleOneWireReplyReceived(eventArgs);
 
-            System.Threading.Thread.Sleep(2000);
+            Monitor.Wait(SyncRoot);
 
             Console.WriteLine("Setting digital pinmode");
             session.SetDigitalPinMode(2, PinMode.OneWire);
@@ -40,6 +43,11 @@ namespace Degree.Arduino.Test
 
         private static void HandleMessageReceived(FirmataMessageEventArgs eventArgs)
         {
+            if (eventArgs.Value.Type == MessageType.ProtocolVersion)
+            {
+                Monitor.Pulse(SyncRoot);
+            }
+
             Console.WriteLine(@"Message: {0}", eventArgs.Value.Type);
         }
     }
