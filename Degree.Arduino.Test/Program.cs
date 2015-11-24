@@ -15,12 +15,12 @@ namespace Degree.Arduino.Test
 
             session.OneWireReplyReceived += (sender, eventArgs) => HandleOneWireReplyReceived(eventArgs);
 
-						System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(2000);
 
-						Console.WriteLine("Setting digital pinmode");
+            Console.WriteLine("Setting digital pinmode");
             session.SetDigitalPinMode(2, PinMode.OneWire);
-						
-						Console.WriteLine("Sending 1-Wire search");
+
+            Console.WriteLine("Sending 1-Wire search");
             session.SendOneWireSearch();
 
             Console.ReadLine();
