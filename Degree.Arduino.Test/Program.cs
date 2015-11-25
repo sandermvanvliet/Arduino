@@ -33,6 +33,7 @@ namespace Degree.Arduino.Test
             Console.WriteLine("Waiting for OneWire search reply");
             ResetEvent.WaitOne();
 
+            Console.WriteLine("Sending sensor read");
             session.SensOneWireSensorRead(sensorAddress);
 
             Console.ReadLine();
