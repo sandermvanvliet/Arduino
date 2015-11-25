@@ -1264,6 +1264,7 @@ namespace Solid.Arduino
              */
 
             var replyCommandType = (OneWireCommand)_messageBuffer[2];
+            Console.WriteLine("replyCommandType: " + replyCommandType);
 
             if (replyCommandType == OneWireCommand.SearchNormalReply ||
                 replyCommandType == OneWireCommand.SearchAlarmsReply)
