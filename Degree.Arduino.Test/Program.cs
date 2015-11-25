@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Solid.Arduino;
 using Solid.Arduino.Firmata;
@@ -9,6 +10,7 @@ namespace Degree.Arduino.Test
     internal class Program
     {
         private static readonly AutoResetEvent ResetEvent = new AutoResetEvent(false);
+        private static byte[] sensorAddress;
 
         private static void Main(string[] args)
         {
@@ -28,6 +30,11 @@ namespace Degree.Arduino.Test
             Console.WriteLine("Sending 1-Wire search");
             session.SendOneWireSearch();
 
+            Console.WriteLine("Waiting for OneWire search reply");
+            ResetEvent.WaitOne();
+
+            session.SensOneWireSensorRead(sensorAddress);
+
             Console.ReadLine();
             connection.Close();
 
@@ -43,6 +50,10 @@ namespace Degree.Arduino.Test
                 {
                     Console.WriteLine("\t" + address);
                 }
+
+                sensorAddress = eventArgs.SearchReply.Sensors.First().Raw;
+
+                ResetEvent.Set();
             }
             else if (eventArgs.Type == OneWireReplyType.ReadReply)
             {

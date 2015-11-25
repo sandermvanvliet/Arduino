@@ -15,5 +15,10 @@ namespace Solid.Arduino.OneWire
         {
             return string.Join("", _address.Select(a => $"{a:X2}"));
         }
+
+        public byte[] Raw
+        {
+            get { return _address; }
+        }
     }
 }
