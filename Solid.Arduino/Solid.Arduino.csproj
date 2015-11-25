@@ -82,6 +82,7 @@
     <Compile Include="OneWire\OneWireCommandFlags.cs" />
     <Compile Include="OneWire\OneWireMessageParser.cs" />
     <Compile Include="OneWire\OneWireReadReply.cs" />
+    <Compile Include="OneWire\OneWireReplyType.cs" />
     <Compile Include="OneWire\OneWireSearchReply.cs" />
     <Compile Include="OneWire\OneWireReplyReceivedEventArgs.cs" />
     <Compile Include="OneWire\ReadReply.cs" />

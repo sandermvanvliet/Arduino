@@ -7,12 +7,16 @@ namespace Solid.Arduino.OneWire
         public OneWireReplyReceivedEventArgs(OneWireSearchReply searchReply)
         {
             SearchReply = searchReply;
+            Type = OneWireReplyType.SearchReply;
         }
 
         public OneWireReplyReceivedEventArgs(OneWireReadReply readReply)
         {
             ReadReply = readReply;
+            Type = OneWireReplyType.ReadReply;
         }
+
+        public OneWireReplyType Type { get; private set; }
 
         public OneWireSearchReply SearchReply { get; private set; }
 
